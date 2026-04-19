@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>CryptoTap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION TABS ===== -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-btn active" data-screen="game" aria-label="Игра">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      <span>Тап</span>
+    </button>
+    <button class="nav-btn" data-screen="shop" aria-label="Магазин">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span>Магазин</span>
+    </button>
+    <button class="nav-btn" data-screen="stats" aria-label="Статистика">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span>Статы</span>
+    </button>
+  </nav>
+
+  <!-- ===== SCREEN: GAME ===== -->
+  <main class="screen active" id="screen-game">
+
+    <!-- Header -->
+    <header class="game-header">
+      <div class="header-coin">
+        <span class="coin-icon">⚡</span>
+        <span class="header-label">CryptoTap</span>
+      </div>
+      <div class="header-passive" id="headerPassive">
+        <span class="passive-icon">⏱</span>
+        <span id="passiveRate">0/s</span>
+      </div>
+    </header>
+
+    <!-- Coin Counter -->
+    <section class="counter-section">
+      <div class="coin-display">
+        <span class="coin-emoji">🪙</span>
+        <span class="coin-count" id="coinCount">0</span>
+      </div>
+      <p class="coin-subtitle">монет всего</p>
+    </section>
+
+    <!-- Main Tap Button -->
+    <section class="tap-section">
+      <div class="tap-ring tap-ring-3"></div>
+      <div class="tap-ring tap-ring-2"></div>
+      <div class="tap-ring tap-ring-1"></div>
+      <button class="tap-btn" id="tapBtn" aria-label="Нажми чтобы заработать монеты">
+        <div class="tap-btn-inner">
+          <div class="tap-glow"></div>
+          <span class="tap-emoji">🚀</span>
+          <span class="tap-label">TAP</span>
+        </div>
+      </button>
+    </section>
+
+    <!-- Energy Bar -->
+    <section class="energy-section">
+      <div class="energy-header">
+        <span class="energy-label">⚡ Энергия</span>
+        <span class="energy-values">
+          <span id="energyCurrent">100</span>/<span id="energyMax">100</span>
+        </span>
+      </div>
+      <div class="energy-track">
+        <div class="energy-fill" id="energyFill"></div>
+        <div class="energy-shimmer"></div>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="quick-stats">
+      <div class="stat-chip">
+        <span class="stat-chip-label">За клик</span>
+        <span class="stat-chip-value" id="perClickStat">+1</span>
+      </div>
+      <div class="stat-chip">
+        <span class="stat-chip-label">Авто/сек</span>
+        <span class="stat-chip-value" id="autoStat">0</span>
+      </div>
+      <div class="stat-chip">
+        <span class="stat-chip-label">Уровень</span>
+        <span class="stat-chip-value" id="levelStat">1</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== SCREEN: SHOP ===== -->
+  <main class="screen" id="screen-shop">
+    <header class="shop-header">
+      <h1 class="shop-title">Магазин</h1>
+      <div class="shop-balance">
+        <span class="coin-emoji-sm">🪙</span>
+        <span id="shopBalance">0</span>
+      </div>
+    </header>
+
+    <div class="shop-section-title">🖱 Улучшения клика</div>
+    <div class="upgrades-list" id="multiTapList">
+      <!-- Rendered by JS -->
+    </div>
+
+    <div class="shop-section-title">🤖 Авто-кликеры</div>
+    <div class="upgrades-list" id="autoClickList">
+      <!-- Rendered by JS -->
+    </div>
+
+    <div class="shop-section-title">⚡ Энергия</div>
+    <div class="upgrades-list" id="energyUpgradeList">
+      <!-- Rendered by JS -->
+    </div>
+  </main>
+
+  <!-- ===== SCREEN: STATS ===== -->
+  <main class="screen" id="screen-stats">
+    <header class="shop-header">
+      <h1 class="shop-title">Статистика</h1>
+    </header>
+    <div class="stats-grid">
+      <div class="stats-card">
+        <span class="stats-card-icon">🪙</span>
+        <span class="stats-card-label">Всего монет</span>
+        <span class="stats-card-value" id="statTotal">0</span>
+      </div>
+      <div class="stats-card">
+        <span class="stats-card-icon">👆</span>
+        <span class="stats-card-label">Всего кликов</span>
+        <span class="stats-card-value" id="statClicks">0</span>
+      </div>
+      <div class="stats-card">
+        <span class="stats-card-icon">⚡</span>
+        <span class="stats-card-label">За клик</span>
+        <span class="stats-card-value" id="statPerClick">1</span>
+      </div>
+      <div class="stats-card">
+        <span class="stats-card-icon">🤖</span>
+        <span class="stats-card-label">Авто / сек</span>
+        <span class="stats-card-value" id="statAuto">0</span>
+      </div>
+      <div class="stats-card stats-card-wide">
+        <span class="stats-card-icon">⏳</span>
+        <span class="stats-card-label">Время в игре</span>
+        <span class="stats-card-value" id="statPlaytime">0 мин</span>
+      </div>
+      <div class="stats-card stats-card-wide">
+        <span class="stats-card-icon">🏆</span>
+        <span class="stats-card-label">Уровень</span>
+        <span class="stats-card-value" id="statLevel">1</span>
+      </div>
+    </div>
+
+    <button class="reset-btn" id="resetBtn">🗑 Сбросить прогресс</button>
+  </main>
+
+  <!-- Floating text container -->
+  <div id="floatingContainer" aria-hidden="true"></div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
